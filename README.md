@@ -17,6 +17,10 @@
 
 Originally conceptualized as an assignment for a Customer Experience Design course, this project was built using insight gathered from co-op students enrolled the math and engineering faculties at the University of Waterloo, with the goal of creating a useful tool for individuals looking to build skill or bolster their resume.
 
+This app uses a users interests, tech stack, and desired scope to generate personalized project ideas. Once the user finds a project they like, they can generate and export a roadmap to guide them from idea to completion.
+
+Ideas and roadmaps are generated using PCTF (Persona, Task, Context, Format) prompting to ensure consistency and quality of responses, using user context gathered from a straightforward, easy-to-use UI. 
+
 ### Built With
 
 * [![Django][Django-img]][Django-url]
