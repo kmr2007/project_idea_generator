@@ -1,0 +1,299 @@
+{% load static %}
+<html class="bg-primary">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{% static 'project_idea_generator/out.css' %}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.sh/@google/genai"
+        }
+      }
+    </script>
+    <script defer type="module" src="{% static 'project_idea_generator/main.js' %}"></script>
+  </head>
+  <body class="h-screen flex items-center">
+    <!-- Hide on app small screens -->
+     <div class="w-full h-full bg-primary fixed z-1000 xl:hidden print:hidden">
+        <p class="text-white text-center my-50 mx-10">Sorry, this app is designed for larger screens. Please try on a different device.</p>
+     </div>
+
+    <!-- Step One - Interests -->
+    <div id="step1" class="large-bg-container">
+      <h1 class="text-center text-3xl">Select your Interests</h1>
+
+      <!-- Choice Buttons -->
+      <div class="mx-auto my-10 flex flex-col items-center gap-y-[16px]">
+        {% for i in interests %}
+            {% if forloop.counter == 1 or forloop.counter == 6 or forloop.counter == 12 or forloop.counter == 17 or forloop.counter == 23 %}
+            <div>
+            {% endif %}
+            <label class="cursor-pointer select-none">
+              <input class="interest-select | peer hidden" type="checkbox" name="options" value="{{ i }}">
+              <span class="btn btn-primary btn-outline text-black font-normal border-2 rounded-[36px] h-[46px] w-[141px] | hover:text-white peer-checked:bg-primary peer-checked:text-white">{{ i }}</span>
+            </label>
+            {% if forloop.counter == 5 or forloop.counter == 11 or forloop.counter == 16 or forloop.counter == 22 %}
+                </div> 
+            {% endif %}
+        {% endfor %}
+            <input id="interest-other" type="text" placeholder="Other" maxlength="60" oninput="if(this.value.length > 60) this.value = this.value.slice(0, 60);" class="btn btn-primary btn-outline text-black font-normal border-2 rounded-[36px] h-[46px] w-[141px] | hover:text-white p-0 not-placeholder-shown:bg-primary not-placeholder-shown:text-white">
+          </div>
+          <p id="step1-error" class="text-center text-sm text-error"></p>
+      </div>
+
+      <!-- Next Button -->
+       <div class="w-full flex justify-end">
+        <button id="step1-btn" class="next-btn">Next --></button>
+       </div>
+
+      <!-- Progress Bar -->
+       <div class="w-full flex justify-center mt-10 ">
+        <ul class="steps w-full text-lg m-auto h-20 grid items-center gap-5/6">
+          <li class="step step-primary after:!w-15 after:!h-15"></li>
+          <li class="step after:!w-15 after:!h-15 before:!w-5/6"></li>
+          <li class="step after:!w-15 after:!h-15 before:!w-5/6"></li>
+          <li class="step after:!w-15 after:!h-15 before:!w-5/6"></li>
+        </ul>
+       </div>
+    </div>
+
+    <!-- Step Two - Tech Stack -->
+    <div id="step2" class="large-bg-container hidden">
+      <h1 class="text-center text-3xl">Build your Tech Stack</h1>
+
+      <!-- Choice Buttons -->
+      <div class="mx-auto my-10 flex flex-col items-center gap-y-[16px]">
+        {% for t in tech %}
+            {% if forloop.counter == 1 or forloop.counter == 6 or forloop.counter == 12 or forloop.counter == 17 or forloop.counter == 23 %}
+            <div>
+            {% endif %}
+            <label class="cursor-pointer select-none">
+              <input class="tech-select | peer hidden" type="checkbox" name="options" value="{{ t }}">
+              <span class="btn btn-primary btn-outline text-black font-normal border-2 rounded-[36px] h-[46px] w-[141px] |hover:text-white peer-checked:bg-primary peer-checked:text-white">{{ t }}</span>
+            </label>
+            {% if forloop.counter == 5 or forloop.counter == 11 or forloop.counter == 16 or forloop.counter == 22 %}
+                </div> 
+            {% endif %}
+        {% endfor %}
+            <input id="tech-other" type="text" placeholder="Other" maxlength="60" oninput="if(this.value.length > 60) this.value = this.value.slice(0, 60);" class="btn btn-primary btn-outline text-black font-normal border-2 rounded-[36px] h-[46px] w-[141px] | hover:text-white p-0 not-placeholder-shown:bg-primary not-placeholder-shown:text-white">
+          </div>
+          <p id="step2-error" class="text-center text-sm text-error"></p>
+      </div>
+
+      <!-- Next Button -->
+       <div class="w-full flex justify-end">
+        <button id="step2-btn" class="next-btn">Next --></button>
+       </div>
+
+      <!-- Progress Bar -->
+       <div class="w-full flex justify-center mt-10 ">
+        <ul class="steps w-full text-lg m-auto h-20 grid items-center gap-5/6">
+          <li class="step step-primary after:!w-15 after:!h-15"></li>
+          <li class="step step-primary after:!w-15 after:!h-15 before:!w-5/6"></li>
+          <li class="step after:!w-15 after:!h-15 before:!w-5/6"></li>
+          <li class="step after:!w-15 after:!h-15 before:!w-5/6"></li>
+        </ul>
+       </div>
+    </div>
+
+    <!-- Step Three - Scope -->
+    <div id="step3" class="large-bg-container hidden">
+      <h1 class="text-center text-3xl">Customize the Scope</h1>
+
+      <!-- Form -->
+      <div class="my-8 mx-auto w-[70%] text-lg">
+        <div>
+          <p>How experienced are you with your chosen tech stack?</p>
+          <div class="my-3 flex justify-between">
+            <label id="tech1" class="rounded-[19px] select select-primary border-2">
+              <span class="label text-white rounded-[19px] bg-primary h-full px-12 relative -left-4"></span>
+              <select >
+                <option disabled selected></option>
+                <option>Novice</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+                <option>Expert</option>
+              </select>
+            </label>
+            <label id="tech2" class="rounded-[19px] select select-primary border-2">
+              <span class="label text-white rounded-[19px] bg-primary h-full px-12 relative -left-4"></span>
+              <select>
+                <option disabled selected></option>
+                <option>Novice</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+                <option>Expert</option>
+              </select>
+            </label>
+            <label id="tech3" class="rounded-[19px] select select-primary border-2">
+              <span class="label text-white rounded-[19px] bg-primary h-full px-12 relative -left-4"></span>
+              <select>
+                <option disabled selected></option>
+                <option>Novice</option>
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+                <option>Expert</option>
+              </select>
+            </label>
+          </div>
+        </div>  
+
+        <div class="my-8 flex items-center justify-between">
+          <p>How much time do you want to spend on this project per day?</p>
+          <select id="per-day-select" class="rounded-[19px] select select-primary border-2 ml-12">
+            <option disabled selected></option>
+            <option>Less than 30 minutes/day</option>
+            <option>1 hour/day</option>
+            <option>2-3 hours/day</option>
+            <option>4+ hours/day</option>
+          </select>
+        </div>
+
+        <div class="my-8 flex items-center justify-between">
+          <p>When would you like to have completed this project?</p>
+          <select id="time-select" class="rounded-[19px] select select-primary border-2 ml-12">
+            <option disabled selected></option>
+            <option>By the end of the day</option>
+            <option>In a weekend</option>
+            <option>1-2 weeks</option>
+            <option>2-4 weeks</option>
+            <option>1-3 months</option>
+            <option>3+ months</option>
+          </select>
+        </div>
+
+        <div class="my-8 flex items-center justify-between">
+          <p>What is your goal with this project?</p>
+          <div class="text-base grid grid-cols-3 gap-[24px]">
+            {% for g in goals %}
+              <label class="cursor-pointer select-none">
+                <input class="goal-select | peer hidden" type="checkbox" name="options" value="{{ g }}">
+                <span class="btn btn-primary btn-outline text-black font-normal border-2 rounded-[36px] h-[46px] w-[141px] |hover:text-white peer-checked:bg-primary peer-checked:text-white">{{ g }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+        <p id="step3-error" class="text-center text-sm text-error"></p>
+      </div>
+
+      
+
+      <!-- Next Button -->
+       <div class="w-full flex justify-end">
+        <button id="step3-btn" class="next-btn">Generate Ideas</button>
+       </div>
+
+      <!-- Progress Bar -->
+       <div class="w-full flex justify-center mt-10 ">
+        <ul class="steps w-full text-lg m-auto h-20 grid items-center gap-5/6">
+          <li class="step step-primary after:!w-15 after:!h-15"></li>
+          <li class="step step-primary after:!w-15 after:!h-15 before:!w-5/6"></li>
+          <li class="step step-primary after:!w-15 after:!h-15 before:!w-5/6"></li>
+          <li class="step after:!w-15 after:!h-15 before:!w-5/6"></li>
+        </ul>
+       </div>
+    </div>
+
+    <!-- Step Four - Ideas -->
+    <div id="step4" class="w-9/10 h-9/10 m-auto rounded-[100px] text-center hidden">
+      <h1 class="text-3xl text-white">Personalized Project Recommendation</h1>
+        <div class="medium-bg-container flex flex-col justify-between">
+          <div>
+            <h2 class="text-primary"><span id="idea-type"></span> - <span id="idea-time"></span> to MVP</h2>
+            <h1 id="idea-title" class="text-2xl"></h1>
+          </div>
+          
+          <div class="flex-2 my-4 flex flex-col justify-evenly">
+            <p id="idea-tagline"></p>
+            <p id="idea-concept"></p>
+            <p>Tech Stack: <span id="idea-tech"></span></p>
+          </div>
+          
+          <button id="get-started-btn" class="next-btn mx-auto">Get Started</button>
+        </div>
+      <div class="w-full flex justify-end m-5">
+        <div class="w-1/5 flex justify-between">
+          <button id="step4-restart-btn" class="next-btn-white">Start Over</button>
+          <button id="step4-regenerate-btn" class="next-btn-white">Get A New Idea</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step Five - Roadmap -->
+    <div id="step5" class="w-9/10 h-9/10 m-auto rounded-[100px] text-center hidden">
+      <h1 class="text-3xl text-white"><span id="roadmap-title"></span> - <span id="roadmap-type"></span> Roadmap</h1>
+        <div class="h-4/5 w-5/6 mx-auto mb-20 flex justify-evenly">
+          <div class="roadmap-container flex flex-col pb-10 pt-5 px-5">
+            <div>
+              <h1 class="text-center text-xl">Phase 1</h1>
+              <h2 id="roadmap-1-goal" class="text-center text-lg"></h2>
+            </div>
+            
+            <div class="text-sm text-left mt-10">
+              <h3>Tasks:</h3>
+              <ol id="roadmap-1-tasks" class="list-disc mx-5"></ol>
+            </div>
+          </div>
+          <div class="roadmap-container flex flex-col pb-10 pt-5 px-5">
+            <div>
+              <h1 class="text-center text-xl">Phase 2</h1>
+              <h2 id="roadmap-2-goal" class="text-center text-lg"></h2>
+            </div>
+            
+            <div class="text-sm text-left mt-10">
+              <h3>Tasks:</h3>
+              <ol id="roadmap-2-tasks" class="list-disc mx-5"></ol>
+            </div>
+          </div>
+          <div class="roadmap-container flex flex-col pb-10 pt-5 px-5">
+            <div>
+              <h1 class="text-center text-xl">Phase 3</h3>
+              <h2 id="roadmap-3-goal" class="text-center text-lg"></h2>
+            </div>
+            
+            <div class="text-sm text-left mt-10">
+              <h3>Tasks:</h3>
+              <ol id="roadmap-3-tasks" class="list-disc mx-5"></ol>
+            </div>
+          </div>
+          <div class="roadmap-container flex flex-col pb-10 pt-5 px-5">
+            <div>
+              <h1 class="text-center text-xl">Phase 4</h1>
+              <h2 id="roadmap-4-goal" class="text-center text-lg"></h2>
+            </div>
+            
+            <div class="text-sm text-left mt-10">
+              <h3>Tasks:</h3>
+              <ol id="roadmap-4-tasks" class="list-disc mx-5"></ol>
+            </div>
+          </div>
+        </div>
+      <div class="w-full flex justify-end m-5">
+        <div class="w-1/5 flex justify-between">
+          <button id="step5-restart-btn" class="next-btn-white print:hidden">Start Over</button>
+          <button id="step5-export-btn" class="next-btn-white print:hidden">Export Roadmap</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="w-full h-full bg-primary flex items-center justify-center hidden">
+      <div class="text-white text-center">
+        <span class="loading loading-spinner loading-xl"></span>
+        <p class="m-5">Generating, this make take a moment.<br> Don't refresh the page!</p>
+      </div>
+    </div>
+  </body>
+</html>
